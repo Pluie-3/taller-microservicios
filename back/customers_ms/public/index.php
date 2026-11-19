@@ -1,14 +1,25 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../app/Base/cors.php';
 
-require_once __DIR__ . '/../app/Controllers/CustomersController.php';
+use App\Controllers\CustomersController;
 
 $controller = new CustomersController();
 $method = $_SERVER['REQUEST_METHOD'];
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$body = json_decode(file_get_contents('php://input'), true) ?? [];
 
-if ($method === 'GET') {
+if ($uri === '/clientes' && $method === 'GET') {
     $controller->index();
+} elseif (preg_match('#^/clientes/(\d+)$#', $uri, $m) && $method === 'GET') {
+    $controller->show((int)$m[1]);
+} elseif ($uri === '/clientes' && $method === 'POST') {
+    $controller->store($body);
+} elseif (preg_match('#^/clientes/(\d+)$#', $uri, $m) && $method === 'PUT') {
+    $controller->update((int)$m[1], $body);
+} elseif (preg_match('#^/clientes/(\d+)$#', $uri, $m) && $method === 'DELETE') {
+    $controller->destroy((int)$m[1]);
 } else {
-    header('Content-Type: application/json');
-    http_response_code(405);
-    echo json_encode(["error" => "Método no permitido"]);
+    http_response_code(404);
+    echo json_encode(['error' => 'Ruta no encontrada en customers_ms']);
 }
