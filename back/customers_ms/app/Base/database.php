@@ -1,30 +1,25 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+namespace App\Base;
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+use PDO;
+use PDOException;
 
 class Database {
-    private $host = "localhost";
-    private $db_name = "alquiler_vehiculos_db";
-    private $username = "root";
-    private $password = "";
-    public $conn;
+    public static function getConnection(): PDO {
+        $host = '127.0.0.1';
+        $db   = 'alquiler_vehiculos_db';
+        $user = 'root';
+        $pass = ''; 
 
-    public function getConnection() {
-        $this->conn = null;
         try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->conn->exec("set names utf8");
-        } catch(PDOException $exception) {
-            echo json_encode(["error" => "Error de conexión: " . $exception->getMessage()]);
+            $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            return $pdo;
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Error de conexión BD: ' . $e->getMessage()]);
             exit();
         }
-        return $this->conn;
     }
 }
