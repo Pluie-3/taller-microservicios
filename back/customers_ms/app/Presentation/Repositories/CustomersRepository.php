@@ -12,11 +12,11 @@ class CustomersRepository {
     }
 
     public function getAll(): array {
-        return $this->db->query("SELECT * FROM clientes ORDER BY id DESC")->fetchAll();
+        return $this->db->query("SELECT *, correo AS email FROM clientes ORDER BY id DESC")->fetchAll();
     }
 
     public function getById(int $id): ?array {
-        $stmt = $this->db->prepare("SELECT * FROM clientes WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT *, correo AS email FROM clientes WHERE id = ?");
         $stmt->execute([$id]);
         $row = $stmt->fetch();
         return $row ?: null;
@@ -29,7 +29,7 @@ class CustomersRepository {
         $stmt->execute([
             $data['nombre'],
             $data['telefono'] ?? null,
-            $data['correo'] ?? null,
+            $data['email'] ?? $data['correo'] ?? null,
             $data['numero_licencia'] ?? null
         ]);
         return (int)$this->db->lastInsertId();
@@ -42,7 +42,7 @@ class CustomersRepository {
         return $stmt->execute([
             $data['nombre'],
             $data['telefono'] ?? null,
-            $data['correo'] ?? null,
+            $data['email'] ?? $data['correo'] ?? null,
             $data['numero_licencia'] ?? null,
             $id
         ]);

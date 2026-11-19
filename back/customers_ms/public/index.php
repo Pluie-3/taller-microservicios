@@ -6,20 +6,20 @@ use App\Controllers\CustomersController;
 
 $controller = new CustomersController();
 $method = $_SERVER['REQUEST_METHOD'];
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $body = json_decode(file_get_contents('php://input'), true) ?? [];
 
-if ($uri === '/clientes' && $method === 'GET') {
+if (preg_match('#^/(clientes|customers)$#', $uri) && $method === 'GET') {
     $controller->index();
-} elseif (preg_match('#^/clientes/(\d+)$#', $uri, $m) && $method === 'GET') {
-    $controller->show((int)$m[1]);
-} elseif ($uri === '/clientes' && $method === 'POST') {
+} elseif (preg_match('#^/(clientes|customers)/(\d+)$#', $uri, $m) && $method === 'GET') {
+    $controller->show((int)$m[2]);
+} elseif (preg_match('#^/(clientes|customers)$#', $uri) && $method === 'POST') {
     $controller->store($body);
-} elseif (preg_match('#^/clientes/(\d+)$#', $uri, $m) && $method === 'PUT') {
-    $controller->update((int)$m[1], $body);
-} elseif (preg_match('#^/clientes/(\d+)$#', $uri, $m) && $method === 'DELETE') {
-    $controller->destroy((int)$m[1]);
+} elseif (preg_match('#^/(clientes|customers)/(\d+)$#', $uri, $m) && $method === 'PUT') {
+    $controller->update((int)$m[2], $body);
+} elseif (preg_match('#^/(clientes|customers)/(\d+)$#', $uri, $m) && $method === 'DELETE') {
+    $controller->destroy((int)$m[2]);
 } else {
     http_response_code(404);
-    echo json_encode(['error' => 'Ruta no encontrada en customers_ms']);
+    echo json_encode(['error' => 'Ruta no encontrada en customers_ms: ' . $uri]);
 }

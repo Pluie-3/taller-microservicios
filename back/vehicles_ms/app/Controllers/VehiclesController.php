@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Presentation\Repositories\VehiclesRepository;
+use PDOException;
 
 class VehiclesController {
     private VehiclesRepository $repo;
@@ -26,7 +27,11 @@ class VehiclesController {
     }
 
     public function store(array $data): void {
-        if (empty($data['marca']) || empty($data['modelo']) || empty($data['anio'])) {
+        $marca = trim((string)($data['marca'] ?? ''));
+        $modelo = trim((string)($data['modelo'] ?? ''));
+        $anio = $data['anio'] ?? '';
+
+        if ($marca === '' || $modelo === '' || !is_numeric($anio)) {
             http_response_code(400);
             echo json_encode(['error' => 'Marca, modelo y año son obligatorios']);
             return;
@@ -37,6 +42,10 @@ class VehiclesController {
             echo json_encode(['error' => 'Estado inválido']);
             return;
         }
+        $data['marca'] = $marca;
+        $data['modelo'] = $modelo;
+        $data['anio'] = (int)$anio;
+
         $id = $this->repo->create($data);
         http_response_code(201);
         echo json_encode($this->repo->getById($id));
@@ -48,6 +57,25 @@ class VehiclesController {
             echo json_encode(['error' => 'Vehículo no encontrado']);
             return;
         }
+        $marca = trim((string)($data['marca'] ?? ''));
+        $modelo = trim((string)($data['modelo'] ?? ''));
+        $anio = $data['anio'] ?? '';
+
+        if ($marca === '' || $modelo === '' || !is_numeric($anio)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Marca, modelo y año son obligatorios']);
+            return;
+        }
+        $estado = $data['estado'] ?? 'disponible';
+        if (!in_array($estado, $this->estadosValidos, true)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Estado inválido']);
+            return;
+        }
+        $data['marca'] = $marca;
+        $data['modelo'] = $modelo;
+        $data['anio'] = (int)$anio;
+
         $this->repo->update($id, $data);
         echo json_encode($this->repo->getById($id));
     }
@@ -74,7 +102,12 @@ class VehiclesController {
             echo json_encode(['error' => 'Vehículo no encontrado']);
             return;
         }
-        $this->repo->delete($id);
-        echo json_encode(['message' => 'Vehículo eliminado']);
+        try {
+            $this->repo->delete($id);
+            echo json_encode(['message' => 'Vehículo eliminado']);
+        } catch (PDOException $e) {
+            http_response_code(409);
+            echo json_encode(['error' => 'No se puede eliminar el vehículo porque tiene alquileres asociados']);
+        }
     }
 }
