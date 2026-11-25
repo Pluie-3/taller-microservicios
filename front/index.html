@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | Gestión de Flota</title>
+    <link rel="stylesheet" href="shared/css/page.css">
+</head>
+<body>
+
+    <!-- MENÚ SUPERIOR -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Alquiler de Vehículos</a>
+        <div class="navbar-links">
+            <a href="index.html" class="active">Inicio</a>
+            <a href="app_clientes/index.html">Clientes</a>
+            <a href="app_vehiculos/index.html">Vehículos</a>
+            <a href="app_disponibilidad/index.html">Disponibilidad</a>
+            <a href="app_alquileres/index.html">Alquileres</a>
+            <a href="app_historial/index.html">Historial</a>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-wrapper">
+
+        <div class="dashboard-grid">
+            <div class="hero-card">
+                <div class="hero-text">
+                    <h1>Panel de Control</h1>
+                    <p>Administra el registro de clientes, el inventario de vehículos y consulta qué unidades están disponibles para alquiler.</p>
+                    <div class="hero-links">
+                        <a href="app_clientes/index.html" class="quick-pill">Gestionar Clientes</a>
+                        <a href="app_vehiculos/index.html" class="quick-pill secondary">Gestionar Vehículos</a>
+                        <a href="app_disponibilidad/index.html" class="quick-pill secondary">Ver Disponibles</a>
+                        <a href="app_alquileres/index.html" class="quick-pill secondary">Alquileres</a>
+                    </div>
+                </div>
+
+                <!-- ESPACIO PARA TU IMAGEN (guarda cualquier imagen como hero-car.png en shared/img/) -->
+                <div class="hero-image-slot">
+                    <img src="shared/img/hero-car.png" alt="Vehículos"
+                         onerror="this.outerHTML='<span style=\'color:#a8a29e;font-size:0.82rem;text-align:center;padding:12px;\'>Espacio para imagen<br>(shared/img/hero-car.png)</span>'">
+                </div>
+            </div>
+
+            <div class="side-panel">
+                <h3>Accesos rápidos</h3>
+
+                <a href="app_clientes/index.html" class="action-card">
+                    <div class="action-card-title">Directorio de Clientes</div>
+                    <div class="action-card-sub">Crear, editar y consultar licencias</div>
+                </a>
+
+                <a href="app_vehiculos/index.html" class="action-card">
+                    <div class="action-card-title">Inventario de Vehículos</div>
+                    <div class="action-card-sub">Control de flota y mantenimiento</div>
+                </a>
+
+                <a href="app_disponibilidad/index.html" class="action-card">
+                    <div class="action-card-title">Disponibilidad</div>
+                    <div class="action-card-sub">Consultar vehículos listos</div>
+                </a>
+
+                <a href="app_alquileres/index.html" class="action-card">
+                    <div class="action-card-title">Alquileres y Reservas</div>
+                    <div class="action-card-sub">Registrar reservas, entregas y devoluciones</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- TARJETAS CON DATOS DE MYSQL -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Clientes Registrados</div>
+                <div class="stat-value" id="stat-clientes">...</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Total Vehículos</div>
+                <div class="stat-value" id="stat-vehiculos">...</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Vehículos Disponibles</div>
+                <div class="stat-value" id="stat-disponibles">...</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">En Mantenimiento</div>
+                <div class="stat-value" id="stat-mantenimiento">...</div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="shared/js/config.js"></script>
+    <script>
+        async function cargarResumen() {
+            try {
+                const resClientes = await fetch(URL_CLIENTES);
+                if (!resClientes.ok) throw new Error();
+                const clientes = await resClientes.json();
+                document.getElementById('stat-clientes').textContent = Array.isArray(clientes) ? clientes.length : '-';
+            } catch (e) {
+                document.getElementById('stat-clientes').textContent = '-';
+            }
+
+            try {
+                const resVehiculos = await fetch(URL_VEHICULOS);
+                if (!resVehiculos.ok) throw new Error();
+                const vehiculos = await resVehiculos.json();
+                if (Array.isArray(vehiculos)) {
+                    document.getElementById('stat-vehiculos').textContent = vehiculos.length;
+                    document.getElementById('stat-disponibles').textContent = vehiculos.filter(v => v.estado === 'disponible').length;
+                    document.getElementById('stat-mantenimiento').textContent = vehiculos.filter(v => v.estado === 'mantenimiento').length;
+                } else {
+                    throw new Error();
+                }
+            } catch (e) {
+                document.getElementById('stat-vehiculos').textContent = '-';
+                document.getElementById('stat-disponibles').textContent = '-';
+                document.getElementById('stat-mantenimiento').textContent = '-';
+            }
+        }
+        cargarResumen();
+    </script>
+</body>
+</html>

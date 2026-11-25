@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clientes</title>
+    <link rel="stylesheet" href="../shared/css/page.css" />
+    <link rel="stylesheet" href="../shared/css/forms.css" />
+    <link rel="stylesheet" href="../shared/css/modals.css" />
+    <link rel="stylesheet" href="../shared/css/msg.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="../index.html" class="navbar-brand">Alquiler de Vehículos</a>
+      <div class="navbar-links">
+        <a href="../index.html">Inicio</a>
+        <a href="../app_clientes/index.html" class="active">Clientes</a>
+        <a href="../app_vehiculos/index.html">Vehículos</a>
+        <a href="../app_disponibilidad/index.html">Disponibilidad</a>
+        <a href="../app_alquileres/index.html">Alquileres</a>
+        <a href="../app_historial/index.html">Historial</a>
+      </div>
+    </nav>
+
+    <main class="main-wrapper">
+      <h1>Lista de clientes</h1>
+      <button id="registro-btn">Registrar cliente</button>
+      <table id="clientes-table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Licencia</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="6">No hay datos registrados...</td></tr>
+        </tbody>
+      </table>
+    </main>
+
+    <div id="customer-form-content" class="form-content close">
+      <form name="cliente-form">
+        <h3 id="form-title">Datos del cliente</h3>
+        <div><label for="nombre">Nombre:</label><input type="text" id="nombre" name="nombre" required maxlength="150" /></div>
+        <div><label for="licencia">Número de licencia:</label><input type="text" id="licencia" name="licencia" required maxlength="50" /></div>
+        <div><label for="telefono">Teléfono (solo números):</label><input type="text" id="telefono" name="telefono" required maxlength="15" pattern="[0-9]+" inputmode="numeric" title="Ingrese solo números" /></div>
+        <div><label for="email">Email:</label><input type="email" id="email" name="email" required maxlength="100" /></div>
+        <div class="btns">
+          <button type="reset">Cancelar</button>
+          <button type="submit">Guardar</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="borrar-modal" class="modal close">
+      <div class="content">
+        <h4>¿Desea borrar el registro?</h4>
+        <div>
+          <button id="cancelar-modal-btn">Cancelar</button>
+          <button id="borrar-modal-btn">Borrar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="msg-content" class="msg hidden"><p></p></div>
+
+    <script src="../shared/js/config.js"></script>
+    <script src="../shared/js/http.js"></script>
+    <script src="../shared/js/components.js"></script>
+    <script src="../shared/js/ui.js"></script>
+    <script src="js/components/clientes_components.js"></script>
+    <script src="js/services/clientes_services.js"></script>
+    <script src="js/clientes.js"></script>
+  </body>
+</html>

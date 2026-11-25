@@ -1,0 +1,54 @@
+.form-content {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 320px;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #fff;
+  border-left: 1px solid #ebe4dc;
+  box-shadow: -4px 0px 16px rgba(41, 37, 36, 0.12);
+  transition-property: right;
+  transition-duration: 350ms;
+  transition-timing-function: ease;
+  z-index: 150;
+}
+
+.form-content.close {
+  right: -380px;
+}
+
+.form-content form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.form-content form div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.form-content form div input,
+.form-content form div select {
+  width: 100%;
+  padding: 8px 10px;
+  box-sizing: border-box;
+}
+
+.form-content form div.btns {
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 12px;
+}

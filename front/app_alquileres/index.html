@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alquileres</title>
+    <link rel="stylesheet" href="../shared/css/page.css" />
+    <link rel="stylesheet" href="../shared/css/forms.css" />
+    <link rel="stylesheet" href="../shared/css/modals.css" />
+    <link rel="stylesheet" href="../shared/css/msg.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="../index.html" class="navbar-brand">Alquiler de Vehículos</a>
+      <div class="navbar-links">
+        <a href="../index.html">Inicio</a>
+        <a href="../app_clientes/index.html">Clientes</a>
+        <a href="../app_vehiculos/index.html">Vehículos</a>
+        <a href="../app_disponibilidad/index.html">Disponibilidad</a>
+        <a href="../app_alquileres/index.html" class="active">Alquileres</a>
+        <a href="../app_historial/index.html">Historial</a>
+      </div>
+    </nav>
+
+    <main class="main-wrapper">
+      <h1>Alquileres y reservas</h1>
+      <button id="registro-btn">Nueva reserva</button>
+      <table id="alquileres-table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Vehículo</th>
+            <th>Cliente</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Devolución</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="8">No hay datos registrados...</td></tr>
+        </tbody>
+      </table>
+    </main>
+
+    <div id="rental-form-content" class="form-content close">
+      <form name="alquiler-form">
+        <h3>Nueva reserva</h3>
+        <div><label for="vehiculo_id">Vehículo:</label><select id="vehiculo_id" name="vehiculo_id" required></select></div>
+        <div><label for="cliente_id">Cliente:</label><select id="cliente_id" name="cliente_id" required></select></div>
+        <div><label for="fecha_inicio">Fecha de inicio:</label><input type="date" id="fecha_inicio" name="fecha_inicio" required /></div>
+        <div><label for="fecha_fin">Fecha de fin:</label><input type="date" id="fecha_fin" name="fecha_fin" required /></div>
+        <div class="btns">
+          <button type="reset">Cancelar</button>
+          <button type="submit">Reservar</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="confirm-modal" class="modal close">
+      <div class="content">
+        <h4 id="confirm-text">¿Está seguro?</h4>
+        <div>
+          <button id="cancelar-modal-btn">Cancelar</button>
+          <button id="confirmar-modal-btn">Confirmar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="devolver-modal" class="modal close">
+      <div class="content">
+        <h4>Fecha de devolución</h4>
+        <input type="date" id="devolucion-fecha" />
+        <br />
+        <div>
+          <button id="cancelar-devolver-btn">Cancelar</button>
+          <button id="confirmar-devolver-btn">Devolver</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="msg-content" class="msg hidden"><p></p></div>
+
+    <script src="../shared/js/config.js"></script>
+    <script src="../shared/js/http.js"></script>
+    <script src="../shared/js/components.js"></script>
+    <script src="../shared/js/ui.js"></script>
+    <script src="js/components/alquileres_components.js"></script>
+    <script src="js/services/alquileres_services.js"></script>
+    <script src="js/alquileres.js"></script>
+  </body>
+</html>

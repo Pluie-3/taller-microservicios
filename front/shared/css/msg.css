@@ -1,0 +1,36 @@
+.msg {
+  position: fixed;
+  top: 76px;
+  left: calc(50vw - 175px);
+  transition-property: top;
+  transition-duration: 500ms;
+  z-index: 999;
+}
+
+.msg p {
+  margin: 0px;
+  width: 350px;
+  min-height: 20px;
+  padding: 8px;
+  background-color: #239e26;
+  box-shadow: 0px 0px 6px 3px #239e26;
+  border-radius: 8px;
+  transition-property: opacity;
+  transition-duration: 500ms;
+  transition-timing-function: linear;
+  color: #fff;
+  font-size: 10pt;
+}
+
+.msg.error p {
+  background-color: #c62828;
+  box-shadow: 0px 0px 6px 3px #c62828;
+}
+
+.msg.hidden {
+  top: -80px;
+}
+
+.msg.hidden p {
+  opacity: 0;
+}

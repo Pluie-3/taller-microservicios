@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehículos</title>
+    <link rel="stylesheet" href="../shared/css/page.css" />
+    <link rel="stylesheet" href="../shared/css/forms.css" />
+    <link rel="stylesheet" href="../shared/css/modals.css" />
+    <link rel="stylesheet" href="../shared/css/msg.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="../index.html" class="navbar-brand">Alquiler de Vehículos</a>
+      <div class="navbar-links">
+        <a href="../index.html">Inicio</a>
+        <a href="../app_clientes/index.html">Clientes</a>
+        <a href="../app_vehiculos/index.html" class="active">Vehículos</a>
+        <a href="../app_disponibilidad/index.html">Disponibilidad</a>
+        <a href="../app_alquileres/index.html">Alquileres</a>
+        <a href="../app_historial/index.html">Historial</a>
+      </div>
+    </nav>
+
+    <main class="main-wrapper">
+      <h1>Lista de vehículos</h1>
+      <button id="registro-btn">Registrar vehículo</button>
+      <table id="vehiculos-table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Año</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="7">No hay datos registrados...</td></tr>
+        </tbody>
+      </table>
+    </main>
+
+    <div id="vehicle-form-content" class="form-content close">
+      <form name="vehiculo-form">
+        <h3 id="form-title">Datos del vehículo</h3>
+        <div><label for="marca">Marca:</label><input type="text" id="marca" name="marca" required maxlength="100" /></div>
+        <div><label for="modelo">Modelo:</label><input type="text" id="modelo" name="modelo" required maxlength="100" /></div>
+        <div><label for="anio">Año:</label><input type="number" id="anio" name="anio" required min="1990" max="2027" /></div>
+        <div>
+          <label for="categoria">Categoría:</label>
+          <select id="categoria" name="categoria">
+            <option value="Economico">Económico</option>
+            <option value="SUV">SUV</option>
+            <option value="Camioneta">Camioneta</option>
+            <option value="Lujo">Lujo</option>
+          </select>
+        </div>
+        <div><label for="estado">Estado:</label><select id="estado" name="estado"></select></div>
+        <div class="btns">
+          <button type="reset">Cancelar</button>
+          <button type="submit">Guardar</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="borrar-modal" class="modal close">
+      <div class="content">
+        <h4>¿Desea borrar el registro?</h4>
+        <div>
+          <button id="cancelar-modal-btn">Cancelar</button>
+          <button id="borrar-modal-btn">Borrar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="msg-content" class="msg hidden"><p></p></div>
+
+    <script src="../shared/js/config.js"></script>
+    <script src="../shared/js/http.js"></script>
+    <script src="../shared/js/components.js"></script>
+    <script src="../shared/js/ui.js"></script>
+    <script src="js/components/vehiculos_components.js"></script>
+    <script src="js/services/vehiculos_services.js"></script>
+    <script src="js/vehiculos.js"></script>
+  </body>
+</html>

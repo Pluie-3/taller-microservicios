@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historial</title>
+    <link rel="stylesheet" href="../shared/css/page.css" />
+    <link rel="stylesheet" href="../shared/css/msg.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="../index.html" class="navbar-brand">Alquiler de Vehículos</a>
+      <div class="navbar-links">
+        <a href="../index.html">Inicio</a>
+        <a href="../app_clientes/index.html">Clientes</a>
+        <a href="../app_vehiculos/index.html">Vehículos</a>
+        <a href="../app_disponibilidad/index.html">Disponibilidad</a>
+        <a href="../app_alquileres/index.html">Alquileres</a>
+        <a href="../app_historial/index.html" class="active">Historial</a>
+      </div>
+    </nav>
+
+    <main class="main-wrapper">
+      <h1>Historial de alquileres</h1>
+      <div class="filtros">
+        <label for="tipo">Consultar por:</label>
+        <select id="tipo">
+          <option value="vehiculo">Vehículo</option>
+          <option value="cliente">Cliente</option>
+        </select>
+        <select id="entidad"></select>
+      </div>
+      <h3 id="titulo-resultado"></h3>
+      <table id="historial-table">
+        <thead>
+          <tr><th>No</th><th id="th-otro">Cliente</th><th>Inicio</th><th>Fin</th><th>Devolución</th><th>Estado</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </main>
+
+    <div id="msg-content" class="msg hidden"><p></p></div>
+
+    <script src="../shared/js/config.js"></script>
+    <script src="../shared/js/http.js"></script>
+    <script src="../shared/js/components.js"></script>
+    <script src="../shared/js/ui.js"></script>
+    <script src="js/components/historial_components.js"></script>
+    <script src="js/services/historial_services.js"></script>
+    <script src="js/historial.js"></script>
+  </body>
+</html>
